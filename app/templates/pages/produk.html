@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if rated %}
+<h5 class="pb-1 mb-4">Channel yang telah dirating</h5>
+<div class="content-wrapper">
+    <div class="row">
+        {% for chl in rated %}
+        <div class="col-md-6 col-xl-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="">
+                        <h5 class="mb-4">{{ chl['channel']}}</h5>
+                        <span class="mdi mdi-youtube-subscription d-block mb-2">
+                            {{ chl.subscriber }}
+                        </span>
+                        <span class="mdi mdi-filmstrip-box d-block mb-2">
+                            {{ chl.total_video }}
+                        </span>
+                        <span class="mdi mdi-calendar-range d-block mb-2">
+                            {{ chl.join_date }}
+                        </span>
+                        <span class="mdi mdi-link-variant d-block mb-2">
+                            <a href="{{ chl.link }}" target="_blank">{{ chl.link }}</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{ url_for('data.give_rating', id_channel=chl.channel_id) }}" class="btn btn-primary">
+                        give rating
+                    </a>
+                    <b class="my-auto mdi mdi mdi-star">{{ chl['rating']}}</b>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<h5 class="pb-1 my-4">Semua Channel</h5>
+<div class="content-wrapper">
+    <div class="row">
+        {% for chl in channels %}
+        <div class="col-md-6 col-xl-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="">
+                        <h5 class="mb-4">{{ chl['channel']}}</h5>
+                        <span class="mdi mdi-youtube-subscription d-block mb-2">
+                            {{ chl.subscriber }}
+                        </span>
+                        <span class="mdi mdi-filmstrip-box d-block mb-2">
+                            {{ chl.total_video }}
+                        </span>
+                        <span class="mdi mdi-calendar-range d-block mb-2">
+                            {{ chl.join_date }}
+                        </span>
+                        <span class="mdi mdi-link-variant d-block mb-2">
+                            <a href="{{ chl.link }}">{{ chl.link }}</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{ url_for('data.give_rating', id_channel=chl.channel_id) }}" class="btn btn-primary me-2">give rating</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true)%}
+    {% if messages %}
+        {% for category, message in messages %}
+            <script>
+                Swal.fire({
+                    title: "{{ message }}",
+                    icon: "{{category}}"
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% endblock %}

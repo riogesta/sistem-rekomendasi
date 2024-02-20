@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">{{ channel.channel }}</h5>
+            <form action="{{ url_for('data.give_rating', id_channel=channel.channel_id) }}" method="POST">
+                <div class="mb-2">
+                    <label for="rating">rating</label>
+                    <input type="number" name="rating" id="rating" class="form-control" value="{{ channel.rating }}" min="1" max="5">
+                    <div id="rating-error" class="form-text text-danger" hidden>rating tidak boleh lebih dari 5!</div>
+                </div>
+                <button type="submit" class="btn btn-primary" disabled>Send</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const inputRating = document.getElementById("rating")
+    const ratingError = document.getElementById("rating-error")
+    const btnSubmit = document.querySelector('button[type="submit"]')
+    
+    inputRating.addEventListener('input', () => {
+        //console.log(btnSubmit)
+        const ratingValue = inputRating.value
+
+        if (ratingValue > 5){
+            ratingError.removeAttribute("hidden")
+            btnSubmit.setAttribute("disabled", true)
+        } else {
+            ratingError.setAttribute("hidden", true)
+
+            if (ratingValue < 1 || ratingValue === "") {
+                btnSubmit.setAttribute("disabled", true)
+            } else {
+                btnSubmit.removeAttribute("disabled")
+            }
+        }
+        
+    })
+
+</script>
+{% endblock %}

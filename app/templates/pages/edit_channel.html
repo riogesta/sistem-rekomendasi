@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">Update Channel</h5>
+            <form action="{{ url_for('channel.update_channel', id=channel.channel_id) }}" method="POST">
+                <div class="mb-2">
+                    <label for="channel">Channel name</label>
+                    <input type="text" id="channel" name="channel" class="form-control" value="{{ channel.channel }}">
+                </div>
+                <div class="mb-2">
+                    <label for="subscriber">Subscriber</label>
+                    <input type="number" id="subscriber" name="subscriber" class="form-control" value="{{ channel.subscriber if channel.subscriber else '' }}">
+                </div>
+                <div class="mb-2">
+                    <label for="total_video">Total video</label>
+                    <input type="number" id="total_video" name="total_video" class="form-control" value="{{ channel.total_video if channel.total_video else '' }}">
+                </div>
+                <div class="mb-2">
+                    <label for="link">Link</label>
+                    <input type="text" id="link" name="link" class="form-control" value="{{ channel.link if channel.link else '' }}">
+                </div>
+                <div class="mb-2">
+                    <label for="join_date">Join date</label>
+                    <input type="date" id="join_date" name="join_date" class="form-control" value="{{ channel.join_date if channel.join_date else '' }}">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

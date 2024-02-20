@@ -1,0 +1,24 @@
+1. buka terminal/cmd pada direktori project saat ini
+   ketikan perintah berikut:
+
+   perintah ke 1.
+   py -3 -m venv .venv
+
+   perintah ke 2.
+   .venv\Scripts\activate
+
+
+2. pemasangan library
+   ketikan perintah berikut:
+
+   pip install -r requirements.txt
+
+
+3. kemudian jalankan perintah berikut ini
+
+   python run.py
+
+
+4. lalu sudah dapat dijalankan pada url berikut:
+
+   localhost:5000

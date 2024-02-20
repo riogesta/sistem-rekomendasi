@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <form action="{{ url_for('data.wa_similarity') }}" method="POST" enctype="multipart/form-data" class="mb-3">
+                <div class="mb-2">
+                    <label for="user">Select User</label>
+                    <select name="user" id="user" class="form-select">
+                        <option value="">-- SELECT ONE --</option>
+                        {% for user in users %}
+                            <option value="{{ user['id'] }}">{{ user['username'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Show</button>
+            </form>
+
+            {% if user : %}
+            <small>Weighted Average rating pada user {{ user }}</small>
+            <div class="overflow-auto">
+                {{ recommendations|safe }}
+            </div>
+            {% endif %}
+        </div>
+        </div>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true)%}
+    {% if messages %}
+        {% for category, message in messages %}
+            <script>
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 5000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  }
+                });
+                Toast.fire({
+                  icon: "{{ category }}",
+                  title: "{{ message }}"
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!-- <div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="mb-2">
+                
+            </div>
+        </div>
+        </div>
+    </div>
+</div> -->
+{% endblock %}

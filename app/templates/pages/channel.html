@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">Add new channel</h5>
+            <form action="{{ url_for('channel.index') }}" method="POST">
+                <div class="mb-2">
+                    <label for="">Channel</label>
+                    <input type="text" name="channel" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label for="subscriber">Subscriber</label>
+                    <input type="number" id="subscriber" name="subscriber" class="form-control" value="">
+                </div>
+                <div class="mb-2">
+                    <label for="total_video">Total video</label>
+                    <input type="number" id="total_video" name="total_video" class="form-control" value="">
+                </div>
+                <div class="mb-2">
+                    <label for="link">Link</label>
+                    <input type="text" id="link" name="link" class="form-control" value="">
+                </div>
+                <div class="mb-2">
+                    <label for="join_date">Join date</label>
+                    <input type="date" id="join_date" name="join_date" class="form-control" value="">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">List Channel</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Channel name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for channel in channels%}
+                    <tr>
+                        <td>{{channel.channel}}</td>
+                        <td>
+                            <a href="{{ url_for('channel.update_channel', id=channel.channel_id) }}" class="btn btn-sm btn-success">Update</a>
+                            <a href="{{ url_for('channel.delete', id=channel.channel_id) }}" class="btn btn-sm btn-danger" onclick="delete_confirm()">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true)%}
+    {% if messages %}
+        {% for category, message in messages %}
+            <script>
+                Swal.fire({
+                    title: "{{ message }}",
+                    icon: "{{category}}"
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<script>
+    function delete_confirm(){
+        event.preventDefault();
+        let urlToRedirect = event.currentTarget.getAttribute('href')
+        Swal.fire({
+            title: "Are you sure?",
+            text: "data will be deleted",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = urlToRedirect
+            }
+        });
+    }
+</script>
+{% endblock %}

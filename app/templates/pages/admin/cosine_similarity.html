@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <small>Cosine similarity antar penguna</small>
+            <div class="overflow-auto">
+                {{ cosine|safe }}
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <small>similarity score per channels</small>
+            <div class="mb-2 overflow-auto">
+                {{ matrix_items|safe }}
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card h-100">
+            <div class="card-body">
+                <small>Nilai rata-ra mae(mean absolute error) tiap pengguna</small>
+                <div class="mb-2">
+                    <b>{{ mae }}</b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <small>Grafik rata-rata channel</small>
+            <div class="mb-2 overflow-auto">
+                <canvas id="ratingsChart" height="200"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Data dari Flask
+    let channels = {{ channels | safe }};
+    let ratings = {{ ratings | safe }};
+
+    // Membuat grafik
+    let ctx = document.getElementById('ratingsChart').getContext('2d');
+    let ratingsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: channels,
+            datasets: [{
+                label: 'Average Ratings',
+                data: ratings,
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'x',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

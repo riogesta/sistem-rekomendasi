@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title mb-1">SISTEM REKOMENDASI CHANNEL YOUTUBE RESEP MAKANAN MENGGUNAKAN COLLABORATIVE FILTERING</h4>
+        <p class="mb-1">👤 Fadhlika Kurniawan</p>
+        <p class="mb-1">🆔 3411191103</p>
+        <p class="mb-2 pb-1">&nbsp;</p>
+        <p class="mb-2 pb-1">&nbsp;</p>
+        <!-- <a href="javascript:;" class="btn btn-sm btn-primary waves-effect waves-light"></a> -->
+    </div>
+    <img src="{{ url_for('static', filename='assets/img/unjani.png')}}" class="scaleX-n1-rtl position-absolute bottom-0 end-0 m-3" width="140" alt="triangle background" data-app-light-img="icons/misc/triangle-light.png" data-app-dark-img="icons/misc/triangle-dark.png">
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true)%}
+    {% if messages %}
+        {% for category, message in messages %}
+            <script>
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 5000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  }
+                });
+                Toast.fire({
+                  icon: "{{ category }}",
+                  title: "{{ message }}"
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+{% endblock %}
